@@ -34,7 +34,7 @@
     <link href="{{ asset('dashboard/assets/css/tabler-payments.min.css?1685973381') }}" rel="stylesheet"/>
     <link href="{{ asset('dashboard/assets/css/tabler-vendors.min.css?1685973381') }}" rel="stylesheet"/>
     <link href="{{ asset('dashboard/assets/css/demo.min.css?1685973381') }}" rel="stylesheet"/>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
     <style>
       @import url('https://rsms.me/inter/inter.css');
       :root {

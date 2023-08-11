@@ -4,7 +4,7 @@
    @include('dashboard.layouts.head')
 
    <body >
-    <script src="./dist/js/demo-theme.min.js?1685973381"></script>
+    <script src="{{ asset('dashboard/assets/js/demo-theme.min.js?1685973381') }}"></script>
     <div class="page">
       <!-- Sidebar -->
        @include('dashboard.layouts.sidebar')
