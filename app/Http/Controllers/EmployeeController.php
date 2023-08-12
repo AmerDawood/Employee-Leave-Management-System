@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 class EmployeeController extends Controller
 {
     public function index(){
-        $users =User::orderByDesc('id')->get();
+        $users =User::orderByDesc('id')->paginate(5);
         return view('dashboard.admin.employee.index',['users'=>$users]);
     }
 
@@ -29,8 +29,7 @@ class EmployeeController extends Controller
                 ->withInput();
         }
 
-        $user = User::create([
-
+       User::create([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => bcrypt($request->input('password')),
@@ -40,6 +39,33 @@ class EmployeeController extends Controller
 
         return redirect()->route('employees.index')->with('msg', 'Employee Created Successfully')->with('type', 'success');
     }
+
+
+
+    public function update(Request $request, $id)
+{
+    $validator = Validator::make($request->all(), [
+        'name' => 'required',
+        'email' => 'required|email|unique:users,email,' . $id,
+        'password' => 'nullable|min:6',
+    ]);
+
+    if ($validator->fails()) {
+        return redirect()->back()
+            ->withErrors($validator)
+            ->withInput();
+    }
+
+    $user = User::findOrFail($id);
+    $user->update([
+        'name' => $request->input('name'),
+        'email' => $request->input('email'),
+        'password' => $request->filled('password') ? bcrypt($request->input('password')) : $user->password,
+    ]);
+
+    return redirect()->route('employees.index')->with('msg', 'Employee Updated Successfully')->with('type', 'success');
+}
+
 
 
 

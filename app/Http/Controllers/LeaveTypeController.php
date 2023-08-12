@@ -13,7 +13,7 @@ class LeaveTypeController extends Controller
      */
     public function index()
     {
-        $types = LeaveType::orderbyDesc('id')->get();
+        $types = LeaveType::orderbyDesc('id')->paginate(5);
         return view('dashboard.admin.leave_types.index',
      [
         'types'=>$types
@@ -24,6 +24,7 @@ class LeaveTypeController extends Controller
     /**
      * Show the form for creating a new resource.
      */
+
     public function create()
     {
         //
@@ -74,16 +75,18 @@ class LeaveTypeController extends Controller
      */
     public function update(Request $request, LeaveType $type)
     {
+        // dd($request->all());
         $request->validate([
-            'title' => 'required',
-            'description' => 'required',
+            'title' => 'nullable',
+            'description' => 'nullable',
         ]);
 
+        $type = LeaveType::findOrFail($request->leave_type);
+        
         $type->update([
             'title' => $request->title,
             'description' => $request->description,
         ]);
-        // dd($type);
 
 
         return redirect()->route('leave-types.index')

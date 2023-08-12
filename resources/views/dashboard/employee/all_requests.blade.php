@@ -31,7 +31,6 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-sm icon-thick" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 15l6 -6l6 6" /></svg>
                       </th>
                       <th>Invoice Subject</th>
-                      <th>Client</th>
                       <th>Start Date</th>
                       <th>Finish Date</th>
                       <th>Status</th>
@@ -48,10 +47,6 @@
                         <td><span class="text-secondary">{{ $item->id }}</span></td>
                         <td><a href="invoice.html" class="text-reset" tabindex="-1">{{ $item->reason }}</a></td>
                         <td>
-                          <span class="flag flag-country-us"></span>
-                          Carlson Limited
-                        </td>
-                        <td>
                             {{ $item->start_date }}
                         </td>
                         <td>
@@ -65,15 +60,26 @@
                             <button class="btn btn-danger btn-delete">
                                 Delete
                             </button>
-
-
-                            <a href="{{ route('my-requests.edit',$item->id) }}" class="btn btn-secondary d-none d-sm-inline-block edit-leave-type-btn">
-                              Edit leave type
-                           </a>
                             <form class="d-inline" action="{{ route('my-requests.destroy', $item->id) }}" method="post">
                                 @csrf
                                 @method('delete')
                             </form>
+
+
+                            <a href="#" class="btn btn-secondary d-none d-sm-inline-block edit-request-btn"
+                            data-bs-toggle="modal"
+                            data-bs-target="#edit-request-modal"
+                            data-id="{{ $item->id }}"
+                            data-reason="{{ $item->reason }}"
+                            data-start-date="{{ $item->start_date }}"
+                            data-end-date="{{ $item->end_date }}"
+                            data-end-date="{{ $item->leave_type_id }}"
+
+                            {{-- data-status="{{ $item->status }}" --}}
+                            >
+                            Edit Your Leave Request
+                        </a>
+
                         <a href="{{ route('my-requests.show',$item->id) }}" class="btn">
                             Show Details
                           </a>
@@ -104,5 +110,30 @@
 </div>
 
  @include('dashboard.employee._form')
+ @include('dashboard.employee.edit_form')
+
+
+@endsection
+
+
+@section('scripts')
+<script>
+    $(document).ready(function() {
+        $('.edit-request-btn').click(function() {
+            var requestId = $(this).data('id');
+            var reason = $(this).data('reason');
+            var startDate = $(this).data('start-date');
+            var endDate = $(this).data('end-date');
+            var leave_type_id = $(this).data('leave_type_id');
+
+            $('#edit-request-modal').find('[name="id"]').val(requestId);
+            $('#edit-request-modal').find('[name="reason"]').val(reason);
+            $('#edit-request-modal').find('[name="start_date"]').val(startDate);
+            $('#edit-request-modal').find('[name="end_date"]').val(endDate);
+            $('#edit-request-modal').find('[name="leave_type_id"]').val(leave_type_id);
+        });
+    });
+    </script>
+
 
 @endsection

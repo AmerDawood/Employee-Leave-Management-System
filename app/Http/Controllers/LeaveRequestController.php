@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\LeaveRequest;
 use App\Models\LeaveType;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class LeaveRequestController extends Controller
 {
@@ -72,21 +73,13 @@ class LeaveRequestController extends Controller
 
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        $leaveRequest = LeaveRequest::with('leaveType')->findOrFail($id);
-        $leavetype = LeaveType::all();
-        return view('dashboard.employee.edit', compact('leaveRequest','leavetype'));
-    }
-
-
-    /**
      * Update the specified resource in storage.
      */
+
     public function update(Request $request, LeaveRequest $leaveRequest)
     {
+        dd($request->all());
+
         $request->validate([
             'leave_type_id' => 'required|exists:leave_types,id',
             'start_date' => 'required',
@@ -94,16 +87,21 @@ class LeaveRequestController extends Controller
             'reason' => 'required',
         ]);
 
+        // $start_date = Carbon::parse($request->start_date)->format('Y-m-d');
+        // $end_date = Carbon::parse($request->end_date)->format('Y-m-d');
+
         $leaveRequest->update([
             'leave_type_id' => $request->leave_type_id,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'reason' => $request->reason,
-
         ]);
+
 
         return redirect()->route('my-requests.index')->with('msg', 'Leave request updated successfully.');
     }
+
+
 
 
     /**

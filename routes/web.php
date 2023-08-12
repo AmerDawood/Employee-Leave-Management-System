@@ -37,6 +37,10 @@ Route::middleware('auth')->group(function(){
 
 
         Route::resource('employees',EmployeeController::class);
+        Route::put('/employees/{employee}', [EmployeeController::class, 'update'])->name('employees.update');
+
+        // Route::put('/employees/{id}', [EmployeeController::class, 'update'])->name('employees.update');
+
         Route::get('employee/{id}/request/',[EmployeeController::class,'getLeaveRequestByUserId'])->name('employee.request');
 
         Route::get('leavetype/{id}/request/',[LeaveTypeController::class,'getLeaveRequestByLeaveType'])->name('leavetype.request');

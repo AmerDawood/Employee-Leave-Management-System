@@ -82,14 +82,14 @@
                             @method('delete')
                         </form>
 
-                        {{-- <a href="#" class="btn btn-secondary d-none d-sm-inline-block edit-leave-type-btn"
+                        <a href="#" class="btn btn-secondary d-none d-sm-inline-block edit-user-btn"
                         data-bs-toggle="modal"
-                        data-bs-target="#edit-leave-type-modal"
+                        data-bs-target="#edit-user-modal"
                         data-id="{{ $item->id }}"
-                        data-title="{{ $item->title }}"
-                        data-description="{{ $item->description }}">
-                        Edit leave type
-                       </a> --}}
+                        data-name="{{ $item->name }}"
+                        data-email="{{ $item->email }}">
+                        Edit Employee
+                    </a>
 
 
 
@@ -103,6 +103,10 @@
 
                    @endforelse
                 </table>
+                <div style="padding: 20px">
+                {{ $users->links() }}
+
+                </div>
               </div>
             </div>
           </div>
@@ -123,6 +127,9 @@
 
 
 @include('dashboard.admin.employee._form')
+@include('dashboard.admin.employee.edit_form')
+
+
 
 
 
@@ -135,6 +142,20 @@
 
 
   @section('scripts')
+
+  <script>
+    $(document).ready(function() {
+        $('.edit-user-btn').click(function() {
+            var userId = $(this).data('id');
+            var name = $(this).data('name');
+            var email = $(this).data('email');
+
+            $('#edit-user-form').attr('action', '{{ url('employees') }}/' + userId);
+            $('#edit-name').val(name);
+            $('#edit-email').val(email);
+        });
+    });
+</script>
 
 
 

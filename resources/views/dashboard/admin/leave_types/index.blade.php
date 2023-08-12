@@ -87,6 +87,7 @@
                         data-bs-target="#edit-leave-type-modal"
                         data-id="{{ $item->id }}"
                         data-title="{{ $item->title }}"
+
                         data-description="{{ $item->description }}">
                         Edit leave type
                        </a>
@@ -103,6 +104,10 @@
 
                    @endforelse
                 </table>
+                <div style="padding: 20px">
+                    {{ $types->links() }}
+
+                    </div>
               </div>
             </div>
           </div>
@@ -123,6 +128,8 @@
 
 
 @include('dashboard.admin.leave_types._form')
+
+
 @include('dashboard.admin.leave_types.edit_form')
 
 
@@ -138,23 +145,22 @@
 
 
   <script>
-$(document).ready(function() {
-    $('.edit-leave-type-btn').click(function() {
-        var type_id = $(this).data('id');
-        var title = $(this).data('title');
-        var description = $(this).data('description');
-        console.log('id:', type_id, 'title:', title, 'description:', description);
+   $('.edit-leave-type-btn').click(function() {
+    var type_id = $(this).data('id');
+    var title = $(this).data('title');
+    var description = $(this).data('description');
 
-        // Update the hidden input field's value with the fetched id
-        $('#edit-form-id').val(type_id);
+    $('#edit_form_id').val(type_id);
+    $('#edit-leave-type-form').attr('action', '{{ url('leave-types') }}/' + type_id);
 
-        // Populate the modal form fields with the retrieved data
-        $('#edit-leave-type-modal').find('[name="title"]').val(title);
-        $('#edit-leave-type-modal').find('[name="description"]').val(description);
-    });
+    $('#edit-leave-type-modal').find('[name="title"]').val(title);
+    $('#edit-leave-type-modal').find('[name="description"]').val(description);
 });
 
-</script>
+
+
+    </script>
+
 
 
   @endsection
