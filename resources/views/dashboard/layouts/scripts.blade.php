@@ -607,12 +607,21 @@
 @if (session('msg'))
 <script>
     Swal.fire(
-    'Good job!',
-    '{{ session("msg") }}',
-    'success'
+        @if(session('type') === 'danger')
+            'Oops!',
+        @else
+            'Good job!',
+        @endif
+        '{{ session("msg") }}',
+        @if(session('type') === 'danger')
+            'error'
+        @else
+            'success'
+        @endif
     )
 </script>
 @endif
+
 
 <script>
     $('.btn-delete').on('click', function() {

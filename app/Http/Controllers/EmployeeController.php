@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\LeaveRequest;
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -89,6 +90,46 @@ class EmployeeController extends Controller
 
 
     }
+
+
+
+
+    // Tasks
+
+
+
+    public function tasksByCurrentUser()
+    {
+        $user = auth()->user();
+
+        $tasks = $user->tasks;
+
+        // dd($tasks);
+
+        return view('dashboard.employee.tasks.index', ['tasks' => $tasks]);
+    }
+
+
+
+
+    public function leave(Request $request, Task $task)
+{
+    $user = auth()->user();
+
+    $task->users()->detach($user->id);
+
+    return redirect()->route('tasks.myTasks')->with('msg', 'You left the task successfully.');
+}
+
+
+
+
+public function show(Task $task)
+{
+    $task->load('users');
+
+    return view('dashboard.employee.tasks.show', compact('task'));
+}
 
 
 }

@@ -41,25 +41,32 @@ class LeaveRequestController extends Controller
      */
     public function store(Request $request)
     {
+        $user = auth()->user();
+        $userTasksCount = $user->tasks->count();
+
+        if ($userTasksCount > 3) {
+            return redirect()->route('my-requests.index')->with('msg', 'You cannot create a leave request because you already have more than 3 tasks.')->with('type','danger');
+        }
+
         $request->validate([
-             'leave_type_id' => 'required|exists:leave_types,id',
+            'leave_type_id' => 'required|exists:leave_types,id',
             'start_date' => 'required',
-         'end_date' => 'required',
-        'reason' => 'required',
+            'end_date' => 'required',
+            'reason' => 'required',
         ]);
 
-
         LeaveRequest::create([
-            'user_id' => auth()->user()->id,
+            'user_id' => $user->id,
             'leave_type_id' => $request->leave_type_id,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'reason' => $request->reason,
         ]);
 
-
-        return redirect()->route('my-requests.index')->with('msg','Leave Request Created Success');
+        return redirect()->route('my-requests.index')->with('msg', 'Leave Request Created Successfully');
     }
+
+
 
     /**
      * Display the specified resource.
@@ -113,7 +120,7 @@ class LeaveRequestController extends Controller
 
         $request->delete();
 
-        return redirect()->route('my-requests.index')->with('msg', 'Leave Request Deleted Successfully')->with('type', 'danger');
+        return redirect()->route('my-requests.index')->with('msg', 'Leave Request Deleted Successfully');
     }
 
 

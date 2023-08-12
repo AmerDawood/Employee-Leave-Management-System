@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\LeaveRequestController;
 use App\Http\Controllers\LeaveTypeController;
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,11 +48,22 @@ Route::middleware('auth')->group(function(){
 
 
 
+
+        Route::resource('tasks',TaskController::class);
+
+
+
     });
 
 
     Route::middleware('user')->group(function(){
         Route::resource('my-requests',LeaveRequestController::class);
+        Route::get('/my-tasks', [EmployeeController::class, 'tasksByCurrentUser'])->name('tasks.myTasks');
+        Route::post('/my-tasks/{task}/leave', [EmployeeController::class,'leave'])->name('tasks.leave');
+        Route::get('my-task/{task}', [EmployeeController::class,'show'])->name('tasks.show');
+
+
+
 
     });
 

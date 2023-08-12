@@ -167,7 +167,7 @@
                     <a class="dropdown-item" href="{{ route('leave-types.index') }}">
                       Leave Types
                     </a>
-                    <a class="dropdown-item" href="./layout-horizontal.html">
+                    <a class="dropdown-item" href="{{ route('tasks.index') }}">
                       Tasks
                     </a>
 
@@ -178,12 +178,12 @@
                 @else
 
                 <div class="dropdown-menu-column">
-                    <a class="dropdown-item" href="">
+                    <a class="dropdown-item" href="{{ route('my-requests.index') }}">
                       My requests
                     </a>
-                    {{-- <a class="dropdown-item" href="{{ route('all.requests') }}">
-                      Requests
-                    </a> --}}
+                    <a class="dropdown-item" href="{{ route('tasks.myTasks') }}">
+                      My Tasks
+                    </a>
 
                   </div>
 
