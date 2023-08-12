@@ -117,4 +117,18 @@ class LeaveRequestController extends Controller
 
         return redirect()->route('my-requests.index')->with('msg', 'Leave Request Deleted Successfully')->with('type', 'danger');
     }
+
+
+
+
+
+
+
+
+    ///
+
+
+
+
+
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LeaveRequest;
 use App\Models\LeaveType;
 use Illuminate\Http\Request;
 
@@ -77,14 +78,17 @@ class LeaveTypeController extends Controller
             'title' => 'required',
             'description' => 'required',
         ]);
-        
+
         $type->update([
             'title' => $request->title,
-            'description' =>  $request->content,
+            'description' => $request->description,
+        ]);
+        // dd($type);
 
-         ]);
 
-        return redirect()->route('leave-types.index')->with('msg', 'Leave Type updated successfully')->with('type', 'success');
+        return redirect()->route('leave-types.index')
+            ->with('msg', 'Leave Type updated successfully')
+            ->with('type', 'success');
     }
 
     /**
@@ -97,5 +101,15 @@ class LeaveTypeController extends Controller
         $type->delete();
 
         return redirect()->route('leave-types.index')->with('msg', 'Leave Type Deleted Successfully')->with('type', 'danger');
+    }
+
+
+
+
+    public function getLeaveRequestByLeaveType($id)
+    {
+        $requests = LeaveRequest::where('leave_type_id',$id)->orderByDesc('id')->get();
+
+        return view('dashboard.admin.leave_types.requests',['requests'=>$requests]);
     }
 }

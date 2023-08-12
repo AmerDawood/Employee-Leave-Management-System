@@ -171,7 +171,7 @@
                       Tasks
                     </a>
 
-                    <a class="dropdown-item" href="./layout-horizontal.html">
+                    <a class="dropdown-item" href="{{ route('employees.index') }}">
                       Employees
                     </a>
                   </div>

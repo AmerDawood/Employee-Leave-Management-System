@@ -14,8 +14,9 @@ class AdminController extends Controller
     {
         $requests = LeaveRequest::with('user') // Eager load
                                 ->orderByDesc('id')
+                                ->where('status','!=','approved')
                                 ->get();
-
+                                
         return view('dashboard.admin.requests.index', ['requests' => $requests]);
     }
 

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\LeaveRequestController;
 use App\Http\Controllers\LeaveTypeController;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +32,15 @@ Route::middleware('auth')->group(function(){
         Route::resource('leave-types',LeaveTypeController::class);
         Route::get('show-request-details/{id}',[AdminController::class,'show'])->name('request.details');
         Route::put('/update-leave-request/{leaveRequest}', [AdminController::class,'updateLeaveRequest'])->name('update.leave-request');
+
+        Route::put('/leave-types/{leave_type}', [LeaveTypeController::class,'update'])->name('leave-types.update');
+
+
+        Route::resource('employees',EmployeeController::class);
+        Route::get('employee/{id}/request/',[EmployeeController::class,'getLeaveRequestByUserId'])->name('employee.request');
+
+        Route::get('leavetype/{id}/request/',[LeaveTypeController::class,'getLeaveRequestByLeaveType'])->name('leavetype.request');
+
 
 
     });

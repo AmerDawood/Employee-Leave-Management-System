@@ -1,9 +1,13 @@
 <div class="modal modal-blur fade" id="edit-leave-type-modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
-         <form action="{{ route('leave-types.update', $item->id) }}" method="POST">
+        <form action="{{ route('leave-types.update', ['leave_type' => $item->id]) }}" method="POST">
             @csrf
             @method('PUT')
+
+            {{-- <input type="hidden" name="id" value="" id="edit-form-id"> --}}
+
+            <h1>{{ $item->id }}</h1>
           <div class="modal-header">
             <h5 class="modal-title">New Leave Type</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -11,7 +15,7 @@
            <div class="modal-body">
             <div class="mb-3">
               <label class="form-label">Title</label>
-              <input type="text" class="form-control @error('description') is-invalid @enderror" name="title" placeholder="Your report name" value="{{ $item->title }}">
+              <input type="text" class="form-control @error('title') is-invalid @enderror" name="title" placeholder="Your Title" value="{{ $item->title }}">
 
               @error('title')
               <small class="invalid-feedback">{{ $message }}</small>

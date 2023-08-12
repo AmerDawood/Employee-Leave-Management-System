@@ -35,7 +35,7 @@
                         <path d="M12 5l0 14" />
                         <path d="M5 12l14 0" />
                     </svg>
-                    Create new leave type
+                    Create new employee
                 </a>
 
                 <a href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal" data-bs-target="#leave-type-report" aria-label="Create new report">
@@ -63,10 +63,10 @@
               </div>
               <div class="table-responsive">
                 <table class="table card-table table-vcenter">
-                   @forelse ($types as $item)
+                   @forelse ($users as $item)
                    <tr>
                     <td class="w-100">
-                      <a href="#" class="text-reset">{{ $item->title }}</a>
+                      <a href="#" class="text-reset">{{ $item->name }}</a>
                     </td>
                     <td class="text-nowrap text-secondary">
                       <!-- Download SVG icon from http://tabler-icons.io/i/calendar -->
@@ -77,29 +77,29 @@
                         <button class="btn btn-danger btn-delete">
                             Delete
                         </button>
-                        <form class="d-inline" action="{{ route('leave-types.destroy', $item->id) }}" method="post">
+                        <form class="d-inline" action="{{ route('employees.destroy', $item->id) }}" method="post">
                             @csrf
                             @method('delete')
                         </form>
 
-                        <a href="#" class="btn btn-secondary d-none d-sm-inline-block edit-leave-type-btn"
+                        {{-- <a href="#" class="btn btn-secondary d-none d-sm-inline-block edit-leave-type-btn"
                         data-bs-toggle="modal"
                         data-bs-target="#edit-leave-type-modal"
                         data-id="{{ $item->id }}"
                         data-title="{{ $item->title }}"
                         data-description="{{ $item->description }}">
                         Edit leave type
-                       </a>
+                       </a> --}}
 
 
 
-                        <a href="{{ route('leavetype.request',$item->id) }}" class="btn">
+                        <a href="{{ route('employee.request',$item->id) }}" class="btn">
                             Show Requests
                           </a>
                     </td>
                   </tr>
                    @empty
-                   <h3 class="text-center">No Leave Types Found</h3>
+                   <h3 class="text-center">No Users Found</h3>
 
                    @endforelse
                 </table>
@@ -122,8 +122,8 @@
 
 
 
-@include('dashboard.admin.leave_types._form')
-@include('dashboard.admin.leave_types.edit_form')
+@include('dashboard.admin.employee._form')
+
 
 
 
@@ -136,25 +136,6 @@
 
   @section('scripts')
 
-
-  <script>
-$(document).ready(function() {
-    $('.edit-leave-type-btn').click(function() {
-        var type_id = $(this).data('id');
-        var title = $(this).data('title');
-        var description = $(this).data('description');
-        console.log('id:', type_id, 'title:', title, 'description:', description);
-
-        // Update the hidden input field's value with the fetched id
-        $('#edit-form-id').val(type_id);
-
-        // Populate the modal form fields with the retrieved data
-        $('#edit-leave-type-modal').find('[name="title"]').val(title);
-        $('#edit-leave-type-modal').find('[name="description"]').val(description);
-    });
-});
-
-</script>
 
 
   @endsection
