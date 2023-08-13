@@ -22,6 +22,17 @@
               <div class="card-header">
                 <h3 class="card-title">All Requests</h3>
               </div>
+              <div class="input-group mb-3" style="padding: 20px">
+                <label class="input-group-text" for="statusDropdown">Status</label>
+                <select class="form-select" id="statusDropdown" onchange="window.location.href = this.value;">
+                    <option value="{{ route('dashboard.index') }}" @unless($selectedStatus) selected @endunless>All</option>
+                    <option value="{{ route('dashboard.index', ['status' => 'pending']) }}" @if($selectedStatus === 'pending') selected @endif>Pending</option>
+                    <option value="{{ route('dashboard.index', ['status' => 'approved']) }}" @if($selectedStatus === 'approved') selected @endif>Approved</option>
+                    <option value="{{ route('dashboard.index', ['status' => 'rejected']) }}" @if($selectedStatus === 'rejected') selected @endif>Rejected</option>
+                </select>
+            </div>
+
+
               <div class="card-body border-bottom py-3">
                 <div class="d-flex">
                 </div>
@@ -75,6 +86,10 @@
 
                   </tbody>
                 </table>
+
+                <div style="padding: 20px">
+                    {{ $requests->appends(['status' => $selectedStatus])->links() }}
+                    </div>
               </div>
 
 

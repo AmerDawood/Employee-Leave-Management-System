@@ -74,6 +74,9 @@
                             data-start-date="{{ $item->start_date }}"
                             data-end-date="{{ $item->end_date }}"
                             data-leave_type_id="{{ $item->leave_type_id }}"
+                            data-manual_leave_type="{{ $item->manual_leave_type }}"
+
+
                          >
                             Edit Your Leave Request
                          </a>
@@ -92,6 +95,10 @@
 
                   </tbody>
                 </table>
+                <div style="padding: 20px">
+                    {{ $requests->links() }}
+                    </div>
+              </div>
               </div>
 
 
@@ -125,6 +132,8 @@
             var endDate = $(this).data('end-date');
             var leave_type_id = $(this).data('leave_type_id');
             var status = $(this).data('status');
+            var manual_leave_type = $(this).data('manual_leave_type');
+
 
 
             $('#edit-request-modal').find('[name="id"]').val(requestId);
@@ -133,6 +142,8 @@
             $('#edit-request-modal').find('[name="end_date"]').val(endDate);
             $('#edit-request-modal').find('[name="leave_type_id"]').val(leave_type_id);
             $('#edit-request-modal').find('[name="status"]').val(status);
+            $('#edit-request-modal').find('[name="manual_leave_type"]').val(manual_leave_type);
+
 
         });
     });
@@ -147,6 +158,27 @@
     });
 
     </script>
+
+
+
+
+<script>
+   document.addEventListener('DOMContentLoaded', function() {
+    const leaveTypeDropdown = document.querySelector('[name="leave_type_id"]');
+    const manualLeaveTypeInput = document.getElementById('manual-leave-type-input');
+
+    leaveTypeDropdown.addEventListener('change', function() {
+        console.log("Selected value:", leaveTypeDropdown.value); // Add this line
+        if (leaveTypeDropdown.value === 'other') {
+            manualLeaveTypeInput.style.display = 'block';
+        } else {
+            manualLeaveTypeInput.style.display = 'none';
+        }
+    });
+});
+
+    </script>
+
 
 
 

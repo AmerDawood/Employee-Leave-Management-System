@@ -41,21 +41,24 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-12">
-                            <div class="mb-3">
-                                <label class="form-label">Leave Type</label>
-                                <select class="form-select @error('reason') is-invalid @enderror" name="leave_type_id" aria-label="Select a Leave Type">
+                        <div class="mb-3">
+                            <label class="form-label">Leave Type</label>
+                            <div style="padding-right: 15px;"> <!-- Add padding here -->
+                                <select class="form-select @error('leave_type_id') is-invalid @enderror" name="leave_type_id" aria-label="Select a Leave Type">
                                     <option selected disabled>Select a Leave Type</option>
-
                                     @foreach ($leaveType as $item)
                                         <option value="{{ $item->id }}">{{ $item->title }}</option>
                                     @endforeach
+                                    <option value="other">Other</option>
                                 </select>
-                                @error('leave_type_id')
-                                <small class="invalid-feedback">{{ $message }}</small>
-                                @enderror
                             </div>
+
+                            <input type="text" class="form-control" name="manual_leave_type" id="manual-leave-type-input" style="display: none; padding: 15px;" placeholder="Add Manual Leave Type">
+
                         </div>
+
+
+
                     </div>
                 </div>
 

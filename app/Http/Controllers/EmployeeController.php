@@ -10,9 +10,18 @@ use Illuminate\Support\Facades\Validator;
 
 class EmployeeController extends Controller
 {
-    public function index(){
-        $users =User::orderByDesc('id')->paginate(5);
-        return view('dashboard.admin.employee.index',['users'=>$users]);
+    public function index(Request $request)
+    {
+        $query = $request->input('query');
+
+        $users = User::when($query, function ($queryBuilder) use ($query) {
+                $queryBuilder->where('name', 'like', '%' . $query . '%')
+                             ->orWhere('email', 'like', '%' . $query . '%');
+            })
+            ->orderByDesc('id')
+            ->paginate(5);
+
+        return view('dashboard.admin.employee.index', ['users' => $users, 'query' => $query]);
     }
 
     public function store(Request $request)

@@ -61,7 +61,18 @@
               <div class="card-header">
                 <h3 class="card-title">All Employees</h3>
               </div>
+              <div class="row mb-3" style="padding: 20px">
+                <div class="col-md-12">
+                    <form action="{{ route('employees.index') }}" method="GET" class="d-flex">
+                        <input type="text" class="form-control me-2" name="query" value="{{ $query ?? '' }}" placeholder="Search by name or email">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </form>
+                </div>
+            </div>
+
               <div class="table-responsive">
+
+
                 <table class="table card-table table-vcenter">
                    @forelse ($users as $item)
                    <tr>

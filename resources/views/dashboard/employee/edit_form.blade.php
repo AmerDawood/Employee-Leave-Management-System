@@ -29,7 +29,6 @@
                         <input type="text" class="form-control" name="reason">
                     </div>
 
-
                     <div class="mb-3">
                         <label class="form-label">Start Date</label>
                         <input type="date" class="form-control" name="start_date" value="{{ $item->start_date }}">
@@ -61,6 +60,13 @@
                             @enderror
                         </div>
                     </div>
+
+                    <input type="text" class="form-control" name="manual_leave_type" id="manual-leave-type-input" value="{{ $item->manual_leave_type }}" style="padding: 15px;" placeholder="Add Manual Leave Type">
+                    {{-- <div class="mb-3">
+                        <label class="form-label">Manual Leave Type</label>
+                        <input type="text" class="form-control" name="manual_leave_type" value="{{ $item->manual_leave_type }}">
+                    </div> --}}
+
 
                 </div>
 

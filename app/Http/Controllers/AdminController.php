@@ -10,14 +10,25 @@ class AdminController extends Controller
 
 
 
-    public function index()
+    public function index(Request $request)
     {
-        $requests = LeaveRequest::with('user') // Eager load
-                                ->orderByDesc('id')
-                                ->where('status','!=','approved')
-                                ->get();
-                                
-        return view('dashboard.admin.requests.index', ['requests' => $requests]);
+        $status = $request->input('status');
+
+        $query = LeaveRequest::with('user')
+            ->orderByDesc('id');
+
+        if ($status) {
+            $query->where('status', $status);
+        } else {
+            $query->where('status', '!=', 'approved');
+        }
+
+        $requests = $query->paginate(5);
+
+        return view('dashboard.admin.requests.index', [
+            'requests' => $requests,
+            'selectedStatus' => $status,
+        ]);
     }
 
 

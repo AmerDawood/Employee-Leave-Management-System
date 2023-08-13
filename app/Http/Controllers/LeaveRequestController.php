@@ -21,7 +21,7 @@ class LeaveRequestController extends Controller
         $requests = LeaveRequest::with('leaveType') // Eager load
                                 ->where('user_id', $user_id)
                                 ->orderByDesc('id')
-                                ->get();
+                                ->paginate(7);
 
 
         return view('dashboard.employee.all_requests', ['requests' => $requests,'leaveType'=>$leaveType]);
@@ -36,31 +36,36 @@ class LeaveRequestController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $user = auth()->user();
         $userTasksCount = $user->tasks->count();
 
         if ($userTasksCount > 3) {
-            return redirect()->route('my-requests.index')->with('msg', 'You cannot create a leave request because you already have more than 3 tasks.')->with('type','danger');
+            return redirect()->route('my-requests.index')->with('msg', 'You cannot create a leave request because you already have more than 3 tasks.')->with('type', 'danger');
         }
 
         $request->validate([
-            'leave_type_id' => 'required|exists:leave_types,id',
             'start_date' => 'required',
             'end_date' => 'required',
             'reason' => 'required',
         ]);
 
+        $leaveTypeId = $request->input('leave_type_id');
+        $manualLeaveType = $request->input('manual_leave_type');
+
+        if ($leaveTypeId === 'other' && empty($manualLeaveType)) {
+            // Set manual_leave_type as null
+            $manualLeaveType = null;
+        }
+
         LeaveRequest::create([
             'user_id' => $user->id,
-            'leave_type_id' => $request->leave_type_id,
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date,
-            'reason' => $request->reason,
+            'leave_type_id' => $leaveTypeId === 'other' ? null : $leaveTypeId,
+            'start_date' => $request->input('start_date'),
+            'end_date' => $request->input('end_date'),
+            'reason' => $request->input('reason'),
+            'manual_leave_type' => $manualLeaveType,
         ]);
 
         return redirect()->route('my-requests.index')->with('msg', 'Leave Request Created Successfully');
@@ -68,9 +73,7 @@ class LeaveRequestController extends Controller
 
 
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show($id)
     {
         $leaveRequest = LeaveRequest::findOrFail($id);
@@ -87,18 +90,32 @@ class LeaveRequestController extends Controller
     {
         $leaveRequest = LeaveRequest::findOrFail($id);
 
+        $user = auth()->user();
+        $userTasksCount = $user->tasks->count();
+
+        if ($userTasksCount > 3) {
+            return redirect()->route('my-requests.index')->with('msg', 'You cannot update the leave request because you already have more than 3 tasks.')->with('type', 'danger');
+        }
+
         $request->validate([
-            'leave_type_id' => 'required|exists:leave_types,id',
             'start_date' => 'required',
             'end_date' => 'required',
             'reason' => 'required',
         ]);
 
+        $leaveTypeId = $request->input('leave_type_id');
+        $manualLeaveType = $request->input('manual_leave_type');
+
+        if ($leaveTypeId === 'other' && empty($manualLeaveType)) {
+            return redirect()->route('my-requests.index')->with('msg', 'Leave Request not updated. Select a valid leave type or provide a manual leave type.')->with('type', 'danger');
+        }
+
         $leaveRequest->update([
-            'leave_type_id' => $request->leave_type_id,
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date,
-            'reason' => $request->reason,
+            'leave_type_id' => $leaveTypeId === 'other' ? null : $leaveTypeId,
+            'start_date' => $request->input('start_date'),
+            'end_date' => $request->input('end_date'),
+            'reason' => $request->input('reason'),
+            'manual_leave_type' => $leaveTypeId === 'other' ? $manualLeaveType : null,
         ]);
 
         return redirect()->route('my-requests.index')->with('msg', 'Leave request updated successfully.');

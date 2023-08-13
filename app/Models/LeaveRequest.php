@@ -9,7 +9,7 @@ class LeaveRequest extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id','leave_type_id','start_date','end_date','reason','status','reply'];
+    protected $fillable = ['user_id','leave_type_id','start_date','end_date','reason','status','reply','manual_leave_type'];
 
 
     public function getStartDateAttribute($value)
@@ -23,7 +23,7 @@ class LeaveRequest extends Model
     }
 
 
-    
+
     public function user()
     {
         return $this->belongsTo(User::class);
