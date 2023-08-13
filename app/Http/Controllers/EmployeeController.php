@@ -110,8 +110,6 @@ class EmployeeController extends Controller
     }
 
 
-
-
     public function leave(Request $request, Task $task)
 {
     $user = auth()->user();

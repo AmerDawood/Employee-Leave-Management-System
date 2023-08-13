@@ -5,6 +5,17 @@
                 @csrf
                 @method('PUT')
 
+
+
+                {{-- <h4 style="padding: 30px;">
+                    The Status Of Your Leave Request Is:
+                    <span style="color: {{ $item->status == 'approved' ? 'green' : 'red' }}">
+                        {{ $item->status }}
+                    </span>
+                </h4> --}}
+
+
+
                 <div class="modal-header">
                     <h5 class="modal-title">Edit Employee Request</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -18,6 +29,7 @@
                         <input type="text" class="form-control" name="reason">
                     </div>
 
+
                     <div class="mb-3">
                         <label class="form-label">Start Date</label>
                         <input type="date" class="form-control" name="start_date" value="{{ $item->start_date }}">
@@ -28,23 +40,27 @@
                         <input type="date" class="form-control" name="end_date" value="{{ $item->end_date }}">
                     </div>
 
+
                     <div class="col-lg-12">
+
                         <div class="mb-3">
                             <label class="form-label">Leave Type</label>
-                            <select class="form-select @error('reason') is-invalid @enderror" name="leave_type_id" aria-label="Select a Leave Type">
-                                <option selected disabled>Select a Leave Type</option>
+                            <select class="form-select @error('leave_type_id') is-invalid @enderror"
+                                name="leave_type_id" aria-label="Select a Leave Type">
+                                <option disabled>Select a Leave Type</option>
 
-                                @foreach ($leaveType as $item)
-                                    <option value="{{ $item->id }}">{{ $item->title }}</option>
+                                @foreach ($leaveType as $leaveTypeItem)
+                                    <option value="{{ $leaveTypeItem->id }}"
+                                        {{ $leaveTypeItem->id == $item->leave_type_id ? 'selected' : '' }}>
+                                        {{ $leaveTypeItem->title }}
+                                    </option>
                                 @endforeach
                             </select>
                             @error('leave_type_id')
-                            <small class="invalid-feedback">{{ $message }}</small>
+                                <small class="invalid-feedback">{{ $message }}</small>
                             @enderror
                         </div>
                     </div>
-
-
 
                 </div>
 

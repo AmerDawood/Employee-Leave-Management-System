@@ -38,7 +38,8 @@
                   Start Daea<br>
                   End Date<br>
                   Status<br>
-                 Created At
+                 Created At<br>
+                 Replay From Adminm
                 </address>
               </div>
               <div class="col-6 text-end">
@@ -46,8 +47,10 @@
                 <address>
                   {{ $leaveRequest->start_date }}<br>
                   {{ $leaveRequest->end_date }}<br>
-                  {{ $leaveRequest->status }}<br>
-                  {{ $leaveRequest->created_at->diffForHumans() }}
+                  {{ $leaveRequest->status }}
+                  {{ $leaveRequest->created_at->diffForHumans() }}<br>
+                  {{ $leaveRequest->reply }}
+
                 </address>
               </div>
 

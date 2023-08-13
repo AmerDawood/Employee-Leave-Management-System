@@ -73,12 +73,11 @@
                             data-reason="{{ $item->reason }}"
                             data-start-date="{{ $item->start_date }}"
                             data-end-date="{{ $item->end_date }}"
-                            data-end-date="{{ $item->leave_type_id }}"
-
-                            {{-- data-status="{{ $item->status }}" --}}
-                            >
+                            data-leave_type_id="{{ $item->leave_type_id }}"
+                         >
                             Edit Your Leave Request
-                        </a>
+                         </a>
+
 
                         <a href="{{ route('my-requests.show',$item->id) }}" class="btn">
                             Show Details
@@ -125,15 +124,30 @@
             var startDate = $(this).data('start-date');
             var endDate = $(this).data('end-date');
             var leave_type_id = $(this).data('leave_type_id');
+            var status = $(this).data('status');
+
 
             $('#edit-request-modal').find('[name="id"]').val(requestId);
             $('#edit-request-modal').find('[name="reason"]').val(reason);
             $('#edit-request-modal').find('[name="start_date"]').val(startDate);
             $('#edit-request-modal').find('[name="end_date"]').val(endDate);
             $('#edit-request-modal').find('[name="leave_type_id"]').val(leave_type_id);
+            $('#edit-request-modal').find('[name="status"]').val(status);
+
         });
     });
+
+    $(document).ready(function() {
+        $('.edit-request-btn').click(function() {
+            var requestId = $(this).data('id');
+            var formAction = "{{ route('my-requests.update', ':id') }}";
+            formAction = formAction.replace(':id', requestId);
+            $('#edit-request-form').attr('action', formAction);
+        });
+    });
+
     </script>
+
 
 
 @endsection

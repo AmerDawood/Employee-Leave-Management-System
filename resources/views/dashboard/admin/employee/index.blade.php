@@ -59,7 +59,7 @@
           <div class="col-md-12 col-lg-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">My Requests</h3>
+                <h3 class="card-title">All Employees</h3>
               </div>
               <div class="table-responsive">
                 <table class="table card-table table-vcenter">

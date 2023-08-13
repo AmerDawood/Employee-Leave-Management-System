@@ -83,9 +83,9 @@ class LeaveRequestController extends Controller
      * Update the specified resource in storage.
      */
 
-    public function update(Request $request, LeaveRequest $leaveRequest)
+    public function update(Request $request, $id)
     {
-        dd($request->all());
+        $leaveRequest = LeaveRequest::findOrFail($id);
 
         $request->validate([
             'leave_type_id' => 'required|exists:leave_types,id',
@@ -94,9 +94,6 @@ class LeaveRequestController extends Controller
             'reason' => 'required',
         ]);
 
-        // $start_date = Carbon::parse($request->start_date)->format('Y-m-d');
-        // $end_date = Carbon::parse($request->end_date)->format('Y-m-d');
-
         $leaveRequest->update([
             'leave_type_id' => $request->leave_type_id,
             'start_date' => $request->start_date,
@@ -104,9 +101,9 @@ class LeaveRequestController extends Controller
             'reason' => $request->reason,
         ]);
 
-
         return redirect()->route('my-requests.index')->with('msg', 'Leave request updated successfully.');
     }
+
 
 
 

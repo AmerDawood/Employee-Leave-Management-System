@@ -11,6 +11,19 @@ class LeaveRequest extends Model
 
     protected $fillable = ['user_id','leave_type_id','start_date','end_date','reason','status','reply'];
 
+
+    public function getStartDateAttribute($value)
+    {
+        return date('Y-m-d', strtotime($value));
+    }
+
+    public function getEndDateAttribute($value)
+    {
+        return date('Y-m-d', strtotime($value));
+    }
+
+
+    
     public function user()
     {
         return $this->belongsTo(User::class);
